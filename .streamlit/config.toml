@@ -2,8 +2,19 @@
 base = "light"
 primaryColor = "#1F6F8B"
 backgroundColor = "#FFFFFF"
-secondaryBackgroundColor = "#EEF4F7"
+secondaryBackgroundColor = "#EEF3F5"
 textColor = "#1B2A33"
+font = "Archivo:https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap, sans-serif"
+headingFontWeights = [700, 600, 600]
+baseRadius = "0.4rem"
+borderColor = "#D6DEE3"
+showWidgetBorder = true
+linkColor = "#1F6F8B"
+blueColor = "#1F6F8B"
+
+[theme.sidebar]
+backgroundColor = "#EEF3F5"
+secondaryBackgroundColor = "#FFFFFF"
 
 [client]
 showErrorDetails = "none"

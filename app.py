@@ -70,6 +70,9 @@ def validate(df):
     bad_cols = X.columns[X.isna().any()].tolist()
     if bad_cols:
         problems.append("Empty or non-numeric values in: " + ", ".join(f"`{c}`" for c in bad_cols))
+    inf_cols = X.columns[np.isinf(X).any()].tolist()
+    if inf_cols:
+        problems.append("Infinite values in: " + ", ".join(f"`{c}`" for c in inf_cols))
 
     y = pd.to_numeric(df[TARGET], errors="coerce")
     unknown = sorted(set(y.dropna().unique()) - set(CLASSES))
@@ -204,8 +207,12 @@ if extra:
     st.caption("Ignored extra column(s): " + ", ".join(extra))
 
 # ---- predict with every model (no fitting here)
-outputs = predict_all(models, X)
-scores = {name: score_predictions(y, pred, proba, models[name].classes_)
+try:
+    outputs = predict_all(models, X)
+except Exception:
+    st.error("The models could not score this file. Check that it has the same format as test_data.csv.")
+    st.stop()
+scores ={name: score_predictions(y, pred, proba, models[name].classes_)
           for name, (pred, proba) in outputs.items()}
 
 tab_model, tab_compare, tab_data = st.tabs(

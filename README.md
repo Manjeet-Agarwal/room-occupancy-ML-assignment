@@ -61,7 +61,7 @@ The classes are strongly imbalanced: always predicting "empty" would already giv
 
 ## c. GitHub repository link
 
-_Repository link to be added._
+<https://github.com/Manjeet-Agarwal/room-occupancy-ML-assignment>
 
 ```
 ├── app.py                    # Streamlit app (loads saved models, never retrains)

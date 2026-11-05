@@ -1,0 +1,6 @@
+venv/
+.ipynb_checkpoints/
+__pycache__/
+
+# assignment brief (not part of the project)
+ML_Assignment_2_AIML_26Oct26.pdf

@@ -108,9 +108,11 @@ def confusion_heatmap(y_true, y_pred, title):
 def report_table(y_true, y_pred):
     report = classification_report(y_true, y_pred, labels=CLASSES, target_names=CLASS_NAMES,
                                    output_dict=True, zero_division=0)
+    # "accuracy" is a single number, not a per-class row; it is already shown as a metric
+    report.pop("accuracy", None)
     table = pd.DataFrame(report).T
     table["support"] = table["support"].astype(int)
-    return table.round(4)
+    return table
 
 
 def error_breakdown(y_true, y_pred):
@@ -244,7 +246,9 @@ with tab_model:
         plt.close(fig)
     with right:
         st.markdown("**Classification report**")
-        st.dataframe(report_table(y, y_pred))
+        report = report_table(y, y_pred)
+        st.dataframe(report.style.format({"precision": "{:.4f}", "recall": "{:.4f}",
+                                          "f1-score": "{:.4f}", "support": "{:,}"}))
 
     result = df.copy()
     result["predicted_count"] = y_pred
@@ -270,9 +274,14 @@ with tab_compare:
     best_mcc = table["MCC"].idxmax()
     st.markdown(f"Highest MCC on this file: **{best_mcc}** ({fmt(table.loc[best_mcc, 'MCC'])}).")
 
-    st.markdown("**Macro-F1 and MCC by model**")
-    st.bar_chart(table[["F1", "MCC"]], stack=False, horizontal=True,
-                 y_label="", x_label="score", height=300)
+    st.markdown("**Misclassified rows by model**")
+    errors = pd.DataFrame(
+        [error_breakdown(y, pred)[1:] for pred, _ in outputs.values()],
+        index=list(outputs.keys()),
+        columns=["empty ↔ occupied", "wrong headcount"],
+    )
+    st.bar_chart(errors, horizontal=True, stack=True, sort=False,
+                 x_label="", y_label="misclassified rows", height=280)
 
     with st.expander("Confusion matrices for every model"):
         grid = st.columns(3)

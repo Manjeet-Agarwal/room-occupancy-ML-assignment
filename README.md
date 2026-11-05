@@ -124,7 +124,7 @@ The app (`app.py`) loads the five saved pipelines once (`@st.cache_resource`) an
 - **Sidebar:** CSV upload, a download button for the sample `test_data.csv`, model dropdown showing the chosen model's settings, and the list of required columns.
 - **Validation:** if any of the 16 feature columns or the target column is missing, or a value is empty/non-numeric, or the target is not 0–3, the app shows an error naming the problem columns instead of crashing.
 - **Selected model tab:** the six metrics, a one-line summary of the mistakes (empty vs occupied vs wrong headcount), the confusion matrix heatmap, the classification report and a download of the predictions with class probabilities.
-- **Compare all five tab:** the six metrics for every model on the uploaded file with the best value in each column highlighted, a macro-F1/MCC chart and all five confusion matrices.
+- **Compare all five tab:** the six metrics for every model on the uploaded file with the best value in each column highlighted, a chart of misclassified rows per model (empty ↔ occupied vs wrong headcount) and all five confusion matrices.
 - **Uploaded data tab:** preview and class counts of the uploaded file.
 
 Metric code lives in `utils.py` and is shared with the notebook, so the app reproduces the notebook's table exactly when `test_data.csv` is uploaded.
